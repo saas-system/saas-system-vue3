@@ -5,10 +5,11 @@
 </template>
 
 <script setup lang="ts">
-import { onActivated, onDeactivated, onUnmounted } from 'vue'
+import { onActivated, onDeactivated, onUnmounted, onMounted } from 'vue'
 import Start from '/@/views/backend/crud/start.vue'
 import Design from '/@/views/backend/crud/design.vue'
 import { state } from '/@/views/backend/crud/index'
+import { closeHotUpdate, openHotUpdate } from '/@/utils/vite'
 
 defineOptions({
     name: 'crud/crud',
@@ -16,15 +17,15 @@ defineOptions({
 })
 
 onActivated(() => {
-    if (import.meta.hot) import.meta.hot.send('custom:close-hot', { type: 'crud' })
+    closeHotUpdate('crud')
 })
 
 onDeactivated(() => {
-    if (import.meta.hot) import.meta.hot.send('custom:open-hot', { type: 'crud' })
+    openHotUpdate('crud')
 })
 
 onUnmounted(() => {
-    if (import.meta.hot) import.meta.hot.send('custom:open-hot', { type: 'crud' })
+    openHotUpdate('crud')
 })
 </script>
 
