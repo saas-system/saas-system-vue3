@@ -72,12 +72,13 @@ import Column from '/@/components/table/column/index.vue'
 import FieldRender from '/@/components/table/fieldRender/index.vue'
 import { useConfig } from '/@/stores/config'
 import type baTableClass from '/@/utils/baTable'
+type ElTableProps = Partial<InstanceType<typeof ElTable>['$props']>
 
 const config = useConfig()
 const tableRef = ref<TableInstance>()
 const baTable = inject('baTable') as baTableClass
 
-interface Props extends /* @vue-ignore */ Partial<InstanceType<typeof ElTable>> {
+interface Props extends /* @vue-ignore */ ElTableProps {
     pagination?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
