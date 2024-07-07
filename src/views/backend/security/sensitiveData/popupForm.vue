@@ -50,7 +50,7 @@
                         :key="baTable.form.extend!.controllerSelectKey"
                         v-model="baTable.form.items!.controller"
                         prop="controller"
-                        :data="{ content: baTable.form.extend!.controllerList }"
+                        :input-attr="{ content: baTable.form.extend!.controllerList }"
                         :placeholder="
                             t('security.sensitiveData.The data listening mechanism will monitor the modification operations under this controller')
                         "
@@ -59,13 +59,11 @@
                         :label="t('Database connection')"
                         v-model="baTable.form.items!.connection"
                         type="remoteSelect"
-                        :attr="{
-                            blockHelp: t('Database connection help'),
-                        }"
+                        :block-help="t('Database connection help')"
                         :input-attr="{
                             pk: 'key',
                             field: 'key',
-                            'remote-url': getDatabaseConnectionListUrl,
+                            remoteUrl: getDatabaseConnectionListUrl,
                             onChange: baTable.onConnectionChange,
                         }"
                     />
@@ -82,7 +80,7 @@
                                 samePrefix: 1,
                                 excludeTable: ['area', 'token', 'captcha', 'admin_group_access', 'admin_log', 'user_money_log', 'user_score_log'],
                             },
-                            'remote-url': getTableListUrl,
+                            remoteUrl: getTableListUrl,
                             onChange: baTable.onTableChange,
                         }"
                         prop="data_table"
@@ -102,8 +100,10 @@
                             v-model="baTable.form.items!.data_fields"
                             :key="baTable.form.extend!.fieldSelectKey"
                             prop="data_fields"
-                            :data="{ content: baTable.form.extend!.fieldSelect }"
-                            :input-attr="{ onChange: onFieldChange }"
+                            :input-attr="{
+                                onChange: onFieldChange,
+                                content: baTable.form.extend!.fieldSelect,
+                            }"
                             v-loading="baTable.form.extend!.fieldLoading"
                         />
 
@@ -113,7 +113,7 @@
                             :label="item.name"
                             type="string"
                             v-model="item.value"
-                            :placeholder="t('security.sensitiveData.Filling in field notes helps you quickly identify fields later')"
+                            :tip="t('security.sensitiveData.Filling in field notes helps you quickly identify fields later')"
                         />
 
                         <hr class="form-hr" />
@@ -124,7 +124,10 @@
                         type="radio"
                         v-model="baTable.form.items!.status"
                         prop="status"
-                        :data="{ content: { '0': t('Disable'), '1': t('Enable') } }"
+                        :input-attr="{
+                            border: true,
+                            content: { '0': t('Disable'), '1': t('Enable') },
+                        }"
                     />
                 </el-form>
             </div>
