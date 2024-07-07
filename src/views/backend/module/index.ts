@@ -8,6 +8,8 @@ import { moduleInstallState, type moduleState } from './types'
 import { uuid } from '/@/utils/random'
 import { fullUrl } from '/@/utils/common'
 import type { UserInfo } from '/@/stores/interface'
+import { closeHotUpdate } from '/@/utils/vite'
+import router from '/@/router/index'
 import { i18n } from '/@/lang/index'
 
 export const loadData = () => {
@@ -294,7 +296,10 @@ export const execInstall = (uid: string, id: number, extend: anyObj = {}) => {
         })
         .finally(() => {
             state.loading.common = false
-            onRefreshTableData()
+            if (router.currentRoute.value.name === 'moduleStore/moduleStore') {
+                onRefreshTableData()
+                closeHotUpdate('modules')
+            }
         })
 }
 
