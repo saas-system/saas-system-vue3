@@ -33,15 +33,16 @@
                     <FormItem label="租户" type="remoteSelect" v-model="baTable.form.items!.tenant_id" prop="tenant_id" :input-attr="{ pk: 'tenant.id', field: 'name', 'remote-url': 'admin/tenant.Tenant/index',disabled: true }" :placeholder="t('Please select field', { field: '租户' })" />
                     <FormItem
                         label="角色组"
+                        v-if="baTable.form.items!.tenant_id"
                         v-model="baTable.form.items!.group_arr"
                         prop="group_arr"
                         type="remoteSelect"
                         :key="('group-' + baTable.form.items!.id)"
                         :input-attr="{
                             multiple: true,
-                            params: { isTree: true},
+                            params: { isTree: true, tenant_id: baTable.form.items!.tenant_id },
                             field: 'name',
-                            'remote-url': 'admin/tenant.Group/index?tenant_id=' + baTable.form.items!.tenant_id
+                            'remote-url': 'admin/tenant.Group/index'
                         }"
                     />
                     <FormItem label="用户名" type="string" v-model="baTable.form.items!.username" prop="username" :placeholder="t('Please input field', { field: '用户名' })" />

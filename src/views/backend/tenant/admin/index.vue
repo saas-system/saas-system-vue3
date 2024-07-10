@@ -134,7 +134,7 @@ provide('baTable', baTable)
 
 const openTable = () => {
     baTable.table.ref = tableRef.value
-    baTable.form.extend.tenant_id = tenantTable.form.items!.id
+    baTable.form.extend!.tenant_id = tenantTable.form.items!.id
     baTable.initComSearch({ 'tenant_id': tenantTable.form.items!.id })
     // 获取表格数据
     baTable.getIndex()?.then(() => {
