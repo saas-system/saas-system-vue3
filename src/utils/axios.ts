@@ -214,6 +214,7 @@ function createAxios<Data = any, T = ApiPromise<Data>>(axiosConfig: AxiosRequest
                         ElNotification({
                             type: 'error',
                             message: response.data.msg,
+                            zIndex: 9999,
                         })
                     }
                     // 自动跳转到路由name或path
@@ -241,6 +242,7 @@ function createAxios<Data = any, T = ApiPromise<Data>>(axiosConfig: AxiosRequest
                     ElNotification({
                         message: response.data.msg ? response.data.msg : i18n.global.t('axios.Operation successful'),
                         type: 'success',
+                        zIndex: 9999,
                     })
                 }
             } else if (response.config.responseType == 'blob') {
