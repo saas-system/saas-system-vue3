@@ -1,6 +1,7 @@
 <template>
     <div>
         <el-dialog
+            @open="openSelectFile"
             @close="emits('update:modelValue', false)"
             width="60%"
             :model-value="modelValue"
@@ -61,6 +62,10 @@ const props = withDefaults(defineProps<Props>(), {
     modelValue: false,
     returnFullUrl: false,
 })
+
+const openSelectFile = () => {
+    getIndex();
+}
 
 const emits = defineEmits<{
     (e: 'update:modelValue', value: boolean): void
