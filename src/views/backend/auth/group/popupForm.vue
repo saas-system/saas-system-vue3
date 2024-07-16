@@ -92,14 +92,6 @@ import type { FormInstance, ElTree, FormItemRule } from 'element-plus'
 import { buildValidatorData } from '/@/utils/validate'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import { useConfig } from '/@/stores/config'
-import { reactive, ref, inject } from 'vue'
-import { useI18n } from 'vue-i18n'
-import type baTableClass from '/@/utils/baTable'
-import FormItem from '/@/components/formItem/index.vue'
-import type { FormInstance, ElTree, FormItemRule } from 'element-plus'
-import { buildValidatorData } from '/@/utils/validate'
-import type Node from 'element-plus/es/components/tree/src/model/node'
-import { useConfig } from '/@/stores/config'
 
 const config = useConfig()
 const formRef = ref<FormInstance>()
