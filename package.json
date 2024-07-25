@@ -12,12 +12,14 @@
         "typecheck": "vue-tsc --noEmit"
     },
     "dependencies": {
+        "element-plus": "2.7.7",
+        "axios": "1.7.2",
+        "vue": "3.4.34",
+        "vue-router": "4.4.0",
         "@element-plus/icons-vue": "2.3.1",
         "@vueuse/core": "10.10.0",
-        "axios": "1.7.2",
         "countup.js": "2.8.0",
         "echarts": "5.5.0",
-        "element-plus": "2.7.4",
         "esno": "4.7.0",
         "font-awesome": "4.7.0",
         "lodash-es": "4.17.21",
@@ -28,10 +30,8 @@
         "screenfull": "6.0.2",
         "sortablejs": "1.15.2",
         "v-code-diff": "1.12.0",
-        "vue": "3.4.27",
         "vue-i18n": "9.13.1",
-        "vue-qr": "4.0.9",
-        "vue-router": "4.3.2"
+        "vue-qr": "4.0.9"
     },
     "devDependencies": {
         "@types/lodash-es": "4.17.12",
