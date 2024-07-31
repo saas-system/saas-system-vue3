@@ -4,6 +4,7 @@ export default {
     short_name: '简称',
     contact_name: '联系人',
     mobile: '联系电话',
+    business_admin_ids: '业务员',
     logo: 'logo',
     mini_logo: '小程序二维码',
     province_id: '省',

@@ -225,6 +225,26 @@ const baTable = new baTableClass(
                 sortable: false,
                 width: 140
             },
+            {
+                label: t('tenant.tenant.business_admin_ids'),
+                prop: 'business_admin_ids',
+                align: 'center',
+                operator: 'FIND_IN_SET',
+                render: 'tags',
+                renderFormatter: (row: TableRow) => {
+                    return row.business_admin ? row.business_admin : '';
+                },
+                comSearchRender: 'remoteSelect',
+                remote: {
+                    // 主键，下拉 value
+                    pk: 'id',
+                    // 字段，下拉 label
+                    field: 'title',
+                    remoteUrl: '/admin/tenant.BusinessAdmin/index',
+                    // 额外的请求参数
+                    params: {},
+                }
+            },
             { label: t('tenant.tenant.logo'), prop: 'logo', align: 'center', render: 'image', width: 80, operator: false },
             { label: t('tenant.tenant.mini_logo'), prop: 'config.mini_logo', align: 'center', render: 'image', width: 120, operator: false },
             {
@@ -340,6 +360,29 @@ const baTable = new baTableClass(
                     }
 
                     return `<span style="color:${color};">${str}</span>`;
+                }
+            },
+            {
+                label: '过期提醒人员',
+                prop: 'config.remind_admin_ids',
+                render: 'tags',
+                align: 'center',
+                'min-width': 140,
+                operator: false,
+                show: false,
+                comSearchRender: 'remoteSelect',
+                remote: {
+                    // 主键，下拉 value
+                    pk: 'config.remind_admin_ids',
+                    // 字段，下拉 label
+                    field: 'nickname',
+                    // 远程接口URL
+                    remoteUrl: '/admin/tenant.Admin/index',
+                    // 额外的请求参数
+                    params: {},
+                },
+                renderFormatter: (row: TableRow) => {
+                    return row.config ? row.config.remind_admins : [];
                 }
             },
             {

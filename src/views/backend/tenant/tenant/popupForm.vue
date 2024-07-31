@@ -31,6 +31,8 @@
                     <FormItem :label="t('tenant.tenant.short_name')" type="string" v-model="baTable.form.items!.short_name" prop="short_name" :placeholder="t('Please input field', { field: t('tenant.tenant.short_name') })" />
                     <FormItem :label="t('tenant.tenant.contact_name')" type="string" v-model="baTable.form.items!.contact_name" prop="contact_name" :placeholder="t('Please input field', { field: t('tenant.tenant.contact_name') })" />
                     <FormItem :label="t('tenant.tenant.mobile')" type="number" prop="mobile" :input-attr="{ step: 1 }" v-model.number="baTable.form.items!.mobile" :placeholder="t('Please input field', { field: t('tenant.tenant.mobile') })" />
+                    <FormItem :label="t('tenant.tenant.business_admin_ids')" type="remoteSelect" v-model="baTable.form.items!.business_admin_ids" prop="business_admin_ids" :placeholder="t('Please select field', { field: t('tenant.tenant.business_admin_ids') })"
+                              :input-attr="{multiple: true, pk: 'id', field: 'title', 'remote-url': 'admin/tenant.BusinessAdmin/index'}" />
                     <FormItem :label="t('tenant.tenant.logo')" type="image" v-model="baTable.form.items!.logo" prop="logo" />
                     <FormItem :label="t('tenant.tenant.area_name')" type="city" v-model="baTable.form.items!.area_ids"  prop="area_ids" />
                     <FormItem :label="t('tenant.tenant.address')" type="string" v-model="baTable.form.items!.address" prop="address" :placeholder="t('Please input field', { field: t('tenant.tenant.address') })" />
