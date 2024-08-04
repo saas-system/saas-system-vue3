@@ -116,11 +116,7 @@ export interface SiteConfig {
     apiUrl: string
     upload: {
         mode: string
-        maxsize: number
-        mimetype: string
-        savename: string
-        url?: string
-        params?: anyObj
+        [key: string]: any
     }
     headNav: RouteRecordRaw[]
     initialize: boolean
