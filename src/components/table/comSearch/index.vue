@@ -40,6 +40,7 @@
                                     <el-date-picker
                                         class="datetime-picker"
                                         v-model="baTable.comSearch.form[item.prop!]"
+                                        :multiple="item.operator == 'IN' || item.operator == 'NOT IN'"
                                         :default-value="
                                             baTable.comSearch.form[item.prop! + '-default']
                                                 ? baTable.comSearch.form[item.prop! + '-default']
