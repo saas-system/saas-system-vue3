@@ -16,33 +16,21 @@
                             :error="state.error.tableName"
                         />
                         <FormItem
-                            class="mr-20 table-comment-item"
+                            class="table-comment-item"
                             :label="t('crud.crud.Data Table Notes')"
                             v-model="state.table.comment"
                             type="string"
                             :placeholder="t('crud.crud.For example: `user table` will be generated into `user management`')"
                         />
-                        <FormItem
-                            class="default-sort-field-type"
-                            :label="t('crud.crud.App')"
-                            v-model="state.app"
-                            type="select"
-                            :data="{
-                                    content: { admin: t('crud.crud.admin'), tenant: t('crud.crud.tenant') },
-                                }"
-                            :input-attr="{ onChange: onChangeCommonModel,clearable:false }"
-                        />
                     </div>
                     <div class="header-right">
-                        <el-link v-if="crudState.type != 'create'" @click="state.showDesignChangeLog = true"
-                                 class="design-change-log" type="primary">
+                        <el-link v-if="crudState.type != 'create'" @click="state.showDesignChangeLog = true" class="design-change-log" type="primary">
                             {{ t('crud.crud.Table design change') }}
                         </el-link>
                         <el-button type="primary" :loading="state.loading.generate" @click="onGenerate" v-blur>
                             {{ t('crud.crud.Generate CRUD code') }}
                         </el-button>
-                        <el-button @click="onAbandonDesign" type="danger" v-blur>{{ t('crud.crud.give up') }}
-                        </el-button>
+                        <el-button @click="onAbandonDesign" type="danger" v-blur>{{ t('crud.crud.give up') }}</el-button>
                     </div>
                 </div>
             </el-row>
@@ -50,8 +38,7 @@
                 <div v-if="state.showHeaderSeniorConfig" class="header-senior-config-box">
                     <div class="header-senior-config-form">
                         <el-form-item :label-width="140" :label="t('crud.crud.Table Quick Search Fields')">
-                            <el-select :clearable="true" :multiple="true" class="w100"
-                                       v-model="state.table.quickSearchField" placement="bottom">
+                            <el-select :clearable="true" :multiple="true" class="w100" v-model="state.table.quickSearchField" placement="bottom">
                                 <el-option
                                     v-for="(item, idx) in state.fields"
                                     :key="idx"
@@ -61,8 +48,7 @@
                             </el-select>
                         </el-form-item>
                         <div class="default-sort-field-box">
-                            <el-form-item :label-width="140" class="default-sort-field"
-                                          :label="t('crud.crud.Table Default Sort Fields')">
+                            <el-form-item :label-width="140" class="default-sort-field" :label="t('crud.crud.Table Default Sort Fields')">
                                 <el-select :clearable="true" v-model="state.table.defaultSortField" placement="bottom">
                                     <el-option
                                         v-for="(item, idx) in state.fields"
@@ -83,8 +69,7 @@
                             />
                         </div>
                         <el-form-item :label-width="140" :label="t('crud.crud.Fields as Table Columns')">
-                            <el-select :clearable="true" :multiple="true" class="w100"
-                                       v-model="state.table.columnFields" placement="bottom">
+                            <el-select :clearable="true" :multiple="true" class="w100" v-model="state.table.columnFields" placement="bottom">
                                 <el-option
                                     v-for="(item, idx) in state.fields"
                                     :key="idx"
@@ -94,8 +79,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item :label-width="140" :label="t('crud.crud.Fields as form items')">
-                            <el-select :clearable="true" :multiple="true" class="w100" v-model="state.table.formFields"
-                                       placement="bottom">
+                            <el-select :clearable="true" :multiple="true" class="w100" v-model="state.table.formFields" placement="bottom">
                                 <el-option
                                     v-for="(item, idx) in state.fields"
                                     :key="idx"
@@ -237,10 +221,10 @@
                                 v-blur
                                 circle
                             >
-                                <Icon color="var(--el-color-white)" size="15" name="fa fa-pencil icon"/>
+                                <Icon color="var(--el-color-white)" size="15" name="fa fa-pencil icon" />
                             </el-button>
                             <el-button @click.stop="onDelField(index)" type="danger" size="small" v-blur circle>
-                                <Icon color="var(--el-color-white)" size="15" name="fa fa-trash"/>
+                                <Icon color="var(--el-color-white)" size="15" name="fa fa-trash" />
                             </el-button>
                         </div>
                     </div>
@@ -257,15 +241,14 @@
                     <div v-else :key="'activate-field-' + state.activateField">
                         <el-form label-position="top">
                             <el-divider content-position="left">{{ t('crud.crud.Common') }}</el-divider>
-                            <el-form-item :label="t('crud.crud.generate')">
+                            <el-form-item :label="t('crud.crud.Generate type')">
                                 <el-select
-                                    @change="onFieldDesignTypeChange"
+                                    @change="onFieldDesignTypeChange($event)"
                                     class="w100"
-                                    v-model="state.fields[state.activateField].designType"
+                                    :model-value="state.fields[state.activateField].designType"
                                     placement="bottom"
                                 >
-                                    <el-option v-for="(item, idx) in designTypes" :key="idx" :label="item.name"
-                                               :value="idx"/>
+                                    <el-option v-for="(item, idx) in designTypes" :key="idx" :label="item.name" :value="idx" />
                                 </el-select>
                             </el-form-item>
                             <FormItem
@@ -329,15 +312,22 @@
                                     />
                                 </div>
                             </template>
-                            <FormItem
-                                :label="t('crud.crud.Field Defaults')"
-                                :placeholder="t('crud.crud.You can directly enter null, 0, empty string')"
-                                type="string"
-                                v-model="state.fields[state.activateField].default"
-                                :input-attr="{
-                                    onChange: onFieldAttrChange,
-                                }"
-                            />
+                            <el-form-item :label="t('crud.crud.Field Defaults')">
+                                <el-select v-model="state.fields[state.activateField].defaultType">
+                                    <el-option label="手动输入" value="INPUT" />
+                                    <el-option label="EMPTY STRING（空字符串）" value="EMPTY STRING" />
+                                    <el-option label="NULL" value="NULL" />
+                                    <el-option label="无（不设默认值）" value="NONE" />
+                                </el-select>
+                                <el-input
+                                    v-if="state.fields[state.activateField].defaultType == 'INPUT'"
+                                    :placeholder="t('crud.crud.Please input the default value')"
+                                    type="text"
+                                    v-model="state.fields[state.activateField].default"
+                                    @change="onFieldAttrChange"
+                                    class="default-input"
+                                />
+                            </el-form-item>
                             <div class="field-inline">
                                 <FormItem
                                     class="form-item-position-right"
@@ -379,8 +369,7 @@
                                 />
                             </div>
                             <template v-if="!isEmpty(state.fields[state.activateField].table)">
-                                <el-divider content-position="left">{{ t('crud.crud.Field Table Properties') }}
-                                </el-divider>
+                                <el-divider content-position="left">{{ t('crud.crud.Field Table Properties') }}</el-divider>
                                 <template v-for="(item, idx) in state.fields[state.activateField].table" :key="idx">
                                     <FormItem
                                         :label="$t('crud.crud.' + idx)"
@@ -395,8 +384,7 @@
                                 </template>
                             </template>
                             <template v-if="!isEmpty(state.fields[state.activateField].form)">
-                                <el-divider content-position="left">{{ t('crud.crud.Field Form Properties') }}
-                                </el-divider>
+                                <el-divider content-position="left">{{ t('crud.crud.Field Form Properties') }}</el-divider>
                                 <template v-for="(item, idx) in state.fields[state.activateField].form" :key="idx">
                                     <FormItem
                                         :label="$t('crud.crud.' + idx)"
@@ -534,10 +522,7 @@
                             >
                                 <el-text size="large" type="danger">{{ state.table.databaseConnection }}</el-text>
                                 <div class="block-help">
-                                    <div>
-                                        {{ t('crud.crud.Check model class', { connection: state.table.databaseConnection })
-                                        }}
-                                    </div>
+                                    <div>{{ t('crud.crud.Check model class', { connection: state.table.databaseConnection }) }}</div>
                                     <div>{{ t('crud.crud.There is no connection attribute in model class') }}</div>
                                 </div>
                             </el-form-item>
@@ -572,7 +557,7 @@
                     center
                     type="error"
                 />
-                <br/>
+                <br />
                 <el-alert
                     v-if="showTableConflictConfirmGenerate()"
                     :title="
@@ -610,8 +595,7 @@
                             :hide-timestamp="true"
                         >
                             <div class="design-timeline-box">
-                                <el-checkbox v-model="item.sync" :label="getTableDesignChangeContent(item)"
-                                             size="small"/>
+                                <el-checkbox v-model="item.sync" :label="getTableDesignChangeContent(item)" size="small" />
                             </div>
                         </el-timeline-item>
                     </el-timeline>
@@ -627,6 +611,7 @@
                         border: true,
                         content: { No: t('crud.crud.No'), Yes: t('crud.crud.Yes') },
                     }"
+                    :block-help="t('crud.crud.tableReBuildBlockHelp')"
                 />
             </el-scrollbar>
             <template #footer>
@@ -649,14 +634,7 @@ import { cloneDeep, range, isEmpty } from 'lodash-es'
 import Sortable from 'sortablejs'
 import type { SortableEvent } from 'sortablejs'
 import { useTemplateRefsList } from '@vueuse/core'
-import {
-    changeStep,
-    state as crudState,
-    getTableAttr,
-    fieldItem,
-    designTypes,
-    tableFieldsKey
-} from '/@/views/backend/crud/index'
+import { changeStep, state as crudState, getTableAttr, fieldItem, designTypes, tableFieldsKey } from '/@/views/backend/crud/index'
 import { ElNotification, ElMessageBox, ElMessage } from 'element-plus'
 import type { FormItemRule, FormInstance, TimelineItemProps, MessageHandler } from 'element-plus'
 import { getFileData, generateCheck, generate, parseFieldData, postLogStart } from '/@/api/backend/crud'
@@ -677,7 +655,6 @@ const state: {
         generate: boolean
         remoteSelect: boolean
     }
-    app: string
     table: {
         name: string
         comment: string
@@ -735,7 +712,6 @@ const state: {
         generate: false,
         remoteSelect: false,
     },
-    app: 'tenant',
     table: {
         name: '',
         comment: '',
@@ -795,8 +771,31 @@ const onActivateField = (idx: number) => {
     state.activateField = idx
 }
 
-const onFieldDesignTypeChange = () => {
+const onFieldDesignTypeChange = (designType: string) => {
+    // 获取新的类型的数据
+    let fieldDesignData: FieldItem | null = null
+    for (const key in fieldItem) {
+        const fieldItemIndex = getArrayKey(fieldItem[key as keyof typeof fieldItem], 'designType', designType)
+        if (fieldItemIndex) {
+            fieldDesignData = cloneDeep(fieldItem[key as keyof typeof fieldItem][fieldItemIndex])
+            break
+        }
+    }
+
+    if (!fieldDesignData) return false
+
+    // 主键重复检查
+    if (!primaryKeyRepeatCheck(fieldDesignData, state.activateField)) {
+        return false
+    }
+
+    // 选中字段数据
     const field = cloneDeep(state.fields[state.activateField])
+
+    // 赋值新类型
+    field.designType = designType
+
+    // 保留字段的 table 和 form 数据，此处额外处理以便交付给 handleFieldAttr 函数
     for (const tKey in field.table) {
         field.table[tKey] = field.table[tKey].value
     }
@@ -804,6 +803,50 @@ const onFieldDesignTypeChange = () => {
         field.form[tKey] = field.form[tKey].value
     }
     state.fields[state.activateField] = handleFieldAttr(field)
+
+    // 询问是否切换至预设方案（除了字段名的属性全部重置）
+    ElMessageBox.confirm(t('crud.crud.Reset generate type attr'), t('Reminder'), {
+        confirmButtonText: t('Confirm') + t('Reset'),
+        cancelButtonText: t('crud.crud.Design efficiency'),
+        type: 'warning',
+        closeOnClickModal: false,
+    })
+        .then(() => {
+            // 记录字段属性更新
+            onFieldAttrChange()
+
+            // 重置属性，除了 name
+            const oldName = state.fields[state.activateField].name
+            state.fields[state.activateField] = handleFieldAttr(fieldDesignData)
+            state.fields[state.activateField].name = oldName
+
+            // 删除快速搜索和排序，根据新类型重新赋值
+            clearFieldTableData(oldName)
+
+            if (fieldDesignData.primaryKey) {
+                // 设置为默认排序字段、快速搜索字段
+                state.table.defaultSortField = fieldDesignData.name
+                state.table.quickSearchField.push(fieldDesignData.name)
+            }
+
+            if (fieldDesignData.designType == 'weigh') {
+                state.table.defaultSortField = fieldDesignData.name
+            }
+
+            // 远程下拉参数预填
+            if (['remoteSelect', 'remoteSelects'].includes(fieldDesignData.designType)) {
+                showRemoteSelectPre(state.activateField, true)
+            }
+
+            // 表单表格字段预定义
+            if (!fieldDesignData.formBuildExclude) {
+                state.table.formFields.push(fieldDesignData.name)
+            }
+            if (!fieldDesignData.tableBuildExclude) {
+                state.table.columnFields.push(fieldDesignData.name)
+            }
+        })
+        .catch(() => {})
 }
 
 /**
@@ -831,6 +874,28 @@ const onFieldNameChange = (val: string, index: number) => {
 
     fieldNameCheck('ElMessage')
     fieldNameDuplicationCheck('ElMessage')
+}
+
+/**
+ * 主键字段重复检测
+ */
+const primaryKeyRepeatCheck = (field: FieldItem, excludeIndex: number = -1) => {
+    if (field.primaryKey === true) {
+        const primaryKeyField = state.fields.find((item, index) => {
+            if (excludeIndex > -1 && index == excludeIndex) {
+                return false
+            }
+            return item.primaryKey
+        })
+        if (primaryKeyField) {
+            ElNotification({
+                type: 'error',
+                message: t('crud.crud.There can only be one primary key field'),
+            })
+            return false
+        }
+    }
+    return true
 }
 
 /**
@@ -909,27 +974,35 @@ const onFieldAttrChange = () => {
     })
 }
 
+/**
+ * 从 state.table.* 清理某个字段的数据
+ */
+const clearFieldTableData = (name: string) => {
+    if (name == state.table.defaultSortField) {
+        state.table.defaultSortField = ''
+    }
+
+    for (const key in tableFieldsKey) {
+        const delIdx = (state.table[tableFieldsKey[key] as TableKey] as string[]).findIndex((item) => {
+            return item == name
+        })
+        if (delIdx != -1) {
+            ;(state.table[tableFieldsKey[key] as TableKey] as string[]).splice(delIdx, 1)
+        }
+    }
+}
+
 const onDelField = (index: number) => {
     if (!state.fields[index]) return
     state.activateField = -1
-    if (state.fields[index].name == state.table.defaultSortField) {
-        state.table.defaultSortField = ''
-    }
+
+    clearFieldTableData(state.fields[index].name)
 
     logTableDesignChange({
         type: 'del-field',
         oldName: state.fields[index].name,
         newName: '',
     })
-
-    for (const key in tableFieldsKey) {
-        const delIdx = (state.table[tableFieldsKey[key] as TableKey] as string[]).findIndex((item) => {
-            return item == state.fields[index].name
-        })
-        if (delIdx != -1) {
-            ;(state.table[tableFieldsKey[key] as TableKey] as string[]).splice(delIdx, 1)
-        }
-    }
 
     state.fields.splice(index, 1)
 
@@ -991,7 +1064,6 @@ const startGenerate = () => {
         type: crudState.type,
         table: state.table,
         fields: fields,
-        app: state.app,
     })
         .then(() => {
             setTimeout(() => {
@@ -1044,7 +1116,6 @@ const onGenerate = () => {
         table: state.table.name,
         connection: state.table.databaseConnection,
         controllerFile: state.table.controllerFile,
-        app: state.app,
     })
         .then(() => {
             startGenerate()
@@ -1082,8 +1153,7 @@ const onAbandonDesign = () => {
         .then(() => {
             changeStep('start')
         })
-        .catch(() => {
-        })
+        .catch(() => {})
 }
 
 interface SortableEvt extends SortableEvent {
@@ -1152,7 +1222,6 @@ const loadData = () => {
         postLogStart(parseInt(crudState.startData.logId))
             .then((res) => {
                 state.table = res.data.table
-                state.app = res.data.app
                 tableDesignChangeInit()
                 if (res.data.table.empty) {
                     state.table.rebuild = 'Yes'
@@ -1162,6 +1231,17 @@ const loadData = () => {
                 const fields = res.data.fields
                 for (const key in fields) {
                     const field = handleFieldAttr(cloneDeep(fields[key]))
+
+                    // 默认值和默认值类型分析
+                    if (typeof field.defaultType == 'undefined') {
+                        if (field.default && ['none', 'null', 'empty string'].includes(field.default)) {
+                            field.defaultType = field.default.toUpperCase() as 'EMPTY STRING' | 'NULL' | 'NONE'
+                            field.default = ''
+                        } else {
+                            field.defaultType = 'INPUT'
+                        }
+                    }
+
                     state.fields.push(field)
                 }
             })
@@ -1226,19 +1306,14 @@ onMounted(() => {
                 const data = handleFieldAttr(cloneDeep(field[evt.oldIndex!]))
 
                 // 主键重复检测
-                if (data.primaryKey == true) {
-                    const primaryKeyField = state.fields.find((item) => {
-                        return item.primaryKey
-                    })
-                    if (primaryKeyField) {
-                        ElNotification({
-                            type: 'error',
-                            message: t('crud.crud.There can only be one primary key field'),
-                        })
+                if (data.primaryKey) {
+                    if (primaryKeyRepeatCheck(data)) {
+                        // 设置为默认排序字段、快速搜索字段
+                        state.table.defaultSortField = data.name
+                        state.table.quickSearchField.push(data.name)
+                    } else {
                         return evt.item.remove()
                     }
-                    state.table.defaultSortField = data.name
-                    state.table.quickSearchField.push(data.name)
                 }
 
                 // 出现权重字段则以其排序
@@ -1348,7 +1423,7 @@ const tableDesignChangeInit = () => {
  */
 const onTableChange = (val: string) => {
     if (!val) return
-    getFileData(val, state.table.isCommonModel, state.app).then((res) => {
+    getFileData(val, state.table.isCommonModel).then((res) => {
         state.table.modelFile = res.data.modelFile
         state.table.controllerFile = res.data.controllerFile
         state.table.validateFile = res.data.validateFile
@@ -1409,7 +1484,7 @@ const onSaveRemoteSelect = () => {
         // 修改字段名
         if (state.fields[state.remoteSelectPre.index].name == 'remote_select') {
             const newName =
-                      state.remoteSelectPre.form.table + (state.fields[state.remoteSelectPre.index].designType == 'remoteSelect' ? '_id' : '_ids')
+                state.remoteSelectPre.form.table + (state.fields[state.remoteSelectPre.index].designType == 'remoteSelect' ? '_id' : '_ids')
             onFieldNameChange(newName, state.remoteSelectPre.index)
         }
 
@@ -1448,6 +1523,7 @@ const onCancelRemoteSelect = () => {
 
 const resetRemoteSelectForm = (excludes: string[] = []) => {
     for (const key in state.remoteSelectPre.form) {
+        if (excludes.includes(key)) continue
         if (key == 'joinField') {
             state.remoteSelectPre.form[key] = []
         } else {
@@ -1618,29 +1694,23 @@ const getTableDesignTimelineType = (type: TableDesignChangeType): TimelineItemPr
 .form-item-position-right {
     display: flex !important;
     align-items: center;
-
     :deep(.el-form-item__label) {
         margin-bottom: 0 !important;
     }
 }
-
 .default-main {
     margin-bottom: 0;
 }
-
 .mr-20 {
     margin-right: 20px;
 }
-
 .field-collapse :deep(.el-collapse-item__header) {
     padding-left: 10px;
     user-select: none;
 }
-
 .field-box {
     padding: 10px;
 }
-
 .field-item {
     display: inline-block;
     padding: 3px 16px;
@@ -1649,15 +1719,12 @@ const getTableDesignTimelineType = (type: TableDesignChangeType): TimelineItemPr
     margin: 6px;
     cursor: pointer;
     user-select: none;
-
     &:hover {
         border-color: var(--el-color-primary);
     }
 }
-
 .header-config-box {
     position: relative;
-
     .header-senior-config {
         display: flex;
         align-items: center;
@@ -1675,27 +1742,22 @@ const getTableDesignTimelineType = (type: TableDesignChangeType): TimelineItemPr
         color: var(--el-text-color-primary);
         cursor: pointer;
         user-select: none;
-
         .senior-config-arrow-icon {
             margin-left: 4px;
         }
     }
 }
-
 .header-senior-config-box {
     width: 100%;
     padding: 10px;
     background-color: var(--ba-bg-color-overlay);
 }
-
 .header-senior-config-form {
     width: 50%;
-
     :deep(.el-form-item__label) {
         justify-content: flex-start;
     }
 }
-
 .header-box {
     display: flex;
     align-items: center;
@@ -1704,7 +1766,6 @@ const getTableDesignTimelineType = (type: TableDesignChangeType): TimelineItemPr
     background-color: var(--ba-bg-color-overlay);
     border-radius: var(--el-border-radius-base);
     transition: 0.1s;
-
     .header,
     .header-item-box {
         display: flex;
@@ -1712,49 +1773,38 @@ const getTableDesignTimelineType = (type: TableDesignChangeType): TimelineItemPr
         align-items: center;
         justify-content: center;
         white-space: nowrap;
-
         :deep(.el-form-item) {
             margin-bottom: 0;
         }
     }
-
     .header-item-box {
         width: 50%;
     }
-
     .table-name-item {
         flex: 3;
     }
-
     .table-comment-item {
         flex: 4;
     }
-
     .header-right {
         margin-left: auto;
-
         .design-change-log {
             margin-right: 10px;
         }
     }
 }
-
 .default-sort-field-box {
     display: flex;
-
     .default-sort-field {
         flex: 6;
     }
-
     .default-sort-field-type {
         flex: 3;
     }
 }
-
 .fields-box {
     margin-top: 36px;
 }
-
 .design-field-empty {
     display: flex;
     height: 100%;
@@ -1763,14 +1813,12 @@ const getTableDesignTimelineType = (type: TableDesignChangeType): TimelineItemPr
     align-items: center;
     justify-content: center;
 }
-
 .design-window {
     overflow-x: auto;
     height: calc(100vh - 200px);
     border-radius: var(--el-border-radius-base);
     background-color: var(--ba-bg-color-overlay);
     border: v-bind('state.draggingField ? "1px dashed var(--el-color-primary)":(state.fields.length ? "none":"1px dashed var(--el-border-color)")');
-
     .design-field-box {
         display: flex;
         padding: 10px;
@@ -1780,82 +1828,68 @@ const getTableDesignTimelineType = (type: TableDesignChangeType): TimelineItemPr
         margin-bottom: 2px;
         cursor: pointer;
         user-select: none;
-
         .design-field {
             padding-right: 10px;
         }
-
         .design-field-name-input {
             width: 200px;
         }
-
         .design-field-name-comment {
             width: 100px;
         }
-
         .design-field-right {
             margin-left: auto;
         }
-
         &:hover {
             border-color: var(--el-color-primary);
         }
     }
-
     .design-field-box.activate {
         border-color: var(--el-color-primary);
     }
 }
-
 .field-inline {
     display: flex;
-
     :deep(.el-form-item) {
         width: 46%;
         margin-right: 2%;
     }
 }
-
+.default-input {
+    margin-top: 10px;
+}
 .field-config {
     overflow-x: auto;
     height: calc(100vh - 200px);
     padding: 20px;
     background-color: var(--ba-bg-color-overlay);
 }
-
 :deep(.confirm-generate-dialog) .el-dialog__body {
     height: unset;
 }
-
 .confirm-generate-dialog-body {
     padding: 30px;
 }
-
 .confirm-generate-dialog-footer {
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
 :deep(.design-change-log-dialog) .el-dialog__body {
     height: unset;
     padding-top: 20px;
-
     .design-change-log-timeline {
         padding-left: 10px;
-
         .el-timeline-item .el-timeline-item__node {
             top: 3px;
         }
     }
-
     .design-change-tips {
         display: block;
         margin-bottom: 20px;
         color: var(--el-color-info);
         font-size: var(--el-font-size-small);
     }
-
     .rebuild-form-item {
         padding-top: 20px;
         border-top: 1px solid var(--el-border-color-lighter);
