@@ -103,7 +103,7 @@ export default {
     'Please select the value field of the select component': '请选择select组件的value字段',
     'Please select the label field of the select component': '请选择select组件的label字段',
     'Fields displayed in the table': '在表格中显示的字段',
-    'Please select the fields displayed in the table': '请选择在表格中显示的字段',
+    'Please select the fields displayed in the table': '请web/src/api/common.ts选择在表格中显示的字段',
     'Controller position': '控制器位置',
     'Please select the controller of the data table': '请选择数据表的控制器',
     'Data Model Location': '数据模型位置',
