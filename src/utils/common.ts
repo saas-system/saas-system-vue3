@@ -59,16 +59,13 @@ export function loadJs(url: string): void {
  * 根据路由 meta.title 设置浏览器标题
  */
 export function setTitleFromRoute() {
-    if (typeof router.currentRoute.value.meta.title != 'string') {
-        return
-    }
     nextTick(() => {
-        let webTitle = ''
-        if ((router.currentRoute.value.meta.title as string).indexOf('pagesTitle.') === -1) {
-            webTitle = router.currentRoute.value.meta.title as string
-        } else {
-            webTitle = i18n.global.t(router.currentRoute.value.meta.title as string)
+        if (typeof router.currentRoute.value.meta.title != 'string') {
+            return
         }
+        const webTitle = i18n.global.te(router.currentRoute.value.meta.title)
+            ? i18n.global.t(router.currentRoute.value.meta.title)
+            : router.currentRoute.value.meta.title
         const title = useTitle()
         const siteConfig = useSiteConfig()
         title.value = `${webTitle}${siteConfig.siteName ? ' - ' + siteConfig.siteName : ''}`
@@ -206,6 +203,9 @@ export const getFileNameFromPath = (path: string) => {
     const paths = path.split('/')
     return paths[paths.length - 1]
 }
+
+export function auth(node: string): boolean
+export function auth(node: { name: string; subNodeName?: string }): boolean
 
 /**
  * 鉴权
@@ -406,38 +406,4 @@ export const getGreet = () => {
         greet = i18n.global.t('utils.Hello!') + i18n.global.t('utils.welcome back')
     }
     return greet
-}
-
-/**
- * 获取时间范围
- */
-export const getDataRange = (day = 30, date = new Date()) => {
-    let i;
-    const nowDateArr = [
-        date.getFullYear(),
-        date.getMonth() + 1,
-        date.getDate()
-    ];
-    //如果格式是MM则需要此步骤，如果是M格式则此循环注释掉
-    for (i = 0; i < nowDateArr.length; i++) {
-        if (nowDateArr[i] >= 1 && nowDateArr[i] <= 9) {
-            nowDateArr[i] = Number('0' + nowDateArr[i]);
-        }
-    }
-    const endDateStr = nowDateArr.join('-') + ' 23:59:59';
-
-    date.setDate(date.getDate() - day);
-    const startDateArr = [
-        date.getFullYear(),
-        date.getMonth() + 1,
-        date.getDate()
-    ];
-    for (i = 0; i < startDateArr.length; i++) {
-        if (startDateArr[i] >= 1 && startDateArr[i] <= 9) {
-            startDateArr[i] = Number('0' + startDateArr[i]);
-        }
-    }
-    const startDateStr = startDateArr.join('-') + ' 23:59:59';
-
-    return startDateStr + ',' + endDateStr;
 }
