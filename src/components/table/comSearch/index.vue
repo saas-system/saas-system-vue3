@@ -40,12 +40,7 @@
                                     <el-date-picker
                                         class="datetime-picker w100"
                                         v-model="baTable.comSearch.form[item.prop!]"
-                                        :multiple="item.operator == 'IN' || item.operator == 'NOT IN'"
-                                        :default-value="
-                                            baTable.comSearch.form[item.prop! + '-default']
-                                                ? baTable.comSearch.form[item.prop! + '-default']
-                                                : [new Date(), new Date()]
-                                        "
+                                        :default-time="[new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 1, 1, 23, 59, 59)]"
                                         :type="item.comSearchRender == 'date' ? 'daterange' : 'datetimerange'"
                                         :range-separator="$t('To')"
                                         :start-placeholder="$t('el.datepicker.startDate')"
@@ -88,11 +83,6 @@
                                         :type="item.comSearchRender == 'date' ? 'date' : 'datetime'"
                                         :value-format="item.comSearchRender == 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss'"
                                         :placeholder="item.operatorPlaceholder"
-                                        :default-value="
-                                            baTable.comSearch.form[item.prop! + '-default']
-                                                ? baTable.comSearch.form[item.prop! + '-default']
-                                                : new Date()
-                                        "
                                         :teleported="false"
                                     />
 
@@ -104,6 +94,7 @@
                                             (item.render == 'tag' || item.render == 'tags' || item.comSearchRender == 'select') && item.replaceValue
                                         "
                                         v-model="baTable.comSearch.form[item.prop!]"
+                                        :multiple="item.operator == 'IN' || item.operator == 'NOT IN'"
                                         :clearable="true"
                                     >
                                         <el-option v-for="(opt, okey) in item.replaceValue" :key="item.prop! + okey" :label="opt" :value="okey" />
@@ -168,10 +159,13 @@ import BaInput from '/@/components/baInput/index.vue'
 const baTable = inject('baTable') as baTableClass
 
 const onResetForm = () => {
-    // 封装好的onResetForm在此处不能使用
-    for (const key in baTable.comSearch.form) {
-        baTable.comSearch.form[key] = ''
-    }
+    /**
+     * 封装好的 /utils/common.js/onResetForm 工具在此处不能使用，因为未使用 el-form-item
+     * 改用通用搜索重新初始化函数
+     */
+    baTable.initComSearch()
+
+    // 通知 baTable 发起通用搜索
     baTable.onTableAction('com-search', {})
 }
 </script>
