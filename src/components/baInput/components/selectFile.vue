@@ -1,7 +1,6 @@
 <template>
     <div>
         <el-dialog
-            @open="openSelectFile"
             @close="emits('update:modelValue', false)"
             width="60%"
             :model-value="modelValue"
@@ -63,10 +62,6 @@ const props = withDefaults(defineProps<Props>(), {
     returnFullUrl: false,
 })
 
-const openSelectFile = () => {
-    getIndex();
-}
-
 const emits = defineEmits<{
     (e: 'update:modelValue', value: boolean): void
     (e: 'choice', value: string[]): void
@@ -95,7 +90,8 @@ const optBtn: OptButton[] = [
         },
     },
 ]
-const baTable = new baTableClass(new baTableApi((isTenantApp() ? '/tenant' : '/admin') + '/routine.Attachment/'), {
+const baTable = new baTableClass(new baTableApi('/admin/routine.Attachment/'), {
+    acceptQuery: false,
     column: [
         {
             type: 'selection',
@@ -113,7 +109,7 @@ const baTable = new baTableClass(new baTableApi((isTenantApp() ? '/tenant' : '/a
             align: 'center',
             operator: false,
         },
-        { label: t('Id'), prop: 'id', align: 'center', operator: '=', sortable: 'custom', width: 70 },
+        { label: t('Id'), prop: 'id', align: 'center', operator: 'LIKE', operatorPlaceholder: t('Fuzzy query'), width: 70 },
         { label: t('utils.Breakdown'), prop: 'topic', align: 'center', operator: 'LIKE', operatorPlaceholder: t('Fuzzy query') },
         {
             label: t('utils.preview'),
@@ -179,7 +175,7 @@ const baTable = new baTableClass(new baTableApi((isTenantApp() ? '/tenant' : '/a
             operator: false,
         },
     ],
-    defaultOrder: { prop: 'id', order: 'desc' },
+    defaultOrder: { prop: 'last_upload_time', order: 'desc' },
 })
 
 provide('baTable', baTable)
