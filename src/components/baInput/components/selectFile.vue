@@ -119,7 +119,7 @@ const baTable = new baTableClass(new baTableApi((isTenantApp() ? '/tenant' : '/a
             label: t('utils.preview'),
             prop: 'suffix',
             align: 'center',
-            renderFormatter: previewRenderFormatter,
+            formatter: previewRenderFormatter,
             render: 'image',
             operator: false,
         },
