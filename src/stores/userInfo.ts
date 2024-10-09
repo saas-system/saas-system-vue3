@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia'
+import router from '../router'
+import { postLogout } from '/@/api/frontend/user/index'
 import { USER_INFO } from '/@/stores/constant/cacheKey'
 import type { UserInfo } from '/@/stores/interface'
 import { Local } from '/@/utils/storage'
-import router from '../router'
 
 export const useUserInfo = defineStore('userInfo', {
     state: (): UserInfo => {
@@ -53,6 +54,12 @@ export const useUserInfo = defineStore('userInfo', {
             return icon
         },
         logout() {
+            postLogout().then((res) => {
+                if (res.code == 1) {
+                    Local.remove(USER_INFO)
+                    router.go(0)
+                }
+            })
         },
         isLogin() {
             return this.id && this.token
