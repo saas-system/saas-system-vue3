@@ -48,7 +48,7 @@ export default {
     'There is no adjustment for system dependency': '系统依赖无调整。',
     please: '请',
     'After installation 1': '在安装结束后',
-    'Manually clean up the system and browser cache, and refresh the page': '手动的清理系统和浏览器缓存，并刷新页面。',
+    'Manually clean up the system and browser cache': '手动的清理系统和浏览器缓存。',
     'After installation 2': '安装结束后',
     'Automatically execute reissue command?': '自动执行重新发布命令？',
     'End of installation': '安装结束',
@@ -148,4 +148,8 @@ export default {
     'Wait for installation': '等待安装',
     'Conflict pending': '冲突待处理',
     'Dependency to be installed': '依赖待安装',
+    'Restart Vite hot server': '重启热更新服务',
+    'Restart Vite hot server tips': '在完成服务重启之前，您还可以随时从顶栏右侧的按钮组中找到手动重启服务的按钮。',
+    'Manual restart': '手动重启',
+    'Restart Now': '立即重启',
 }
