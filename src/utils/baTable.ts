@@ -429,10 +429,15 @@ export default class baTable {
             },
             onEnd: (evt: Sortable.SortableEvent) => {
                 this.table.column[buttonsKey].buttons![moveButton].disabledTip = disabledTip
+
+                // 目标位置不变
+                if (evt.oldIndex == evt.newIndex || typeof evt.newIndex == 'undefined' || typeof evt.oldIndex == 'undefined') return
+
                 // 找到对应行id
-                const moveRow = findIndexRow(this.table.data!, evt.oldIndex!) as TableRow
-                const replaceRow = findIndexRow(this.table.data!, evt.newIndex!) as TableRow
-                if (this.table.dragSortLimitField && moveRow[this.table.dragSortLimitField] != replaceRow[this.table.dragSortLimitField]) {
+                const moveRow = findIndexRow(this.table.data!, evt.oldIndex) as TableRow
+                const targetRow = findIndexRow(this.table.data!, evt.newIndex) as TableRow
+
+                if (this.table.dragSortLimitField && moveRow[this.table.dragSortLimitField] != targetRow[this.table.dragSortLimitField]) {
                     this.onTableHeaderAction('refresh', {})
                     ElNotification({
                         type: 'error',
@@ -441,9 +446,16 @@ export default class baTable {
                     return
                 }
 
-                this.api.sortableApi(moveRow[this.table.pk!], replaceRow[this.table.pk!]).finally(() => {
-                    this.onTableHeaderAction('refresh', {})
-                })
+                this.api
+                    .sortable({
+                        move: moveRow[this.table.pk!],
+                        target: targetRow[this.table.pk!],
+                        order: this.table.filter?.order,
+                        direction: evt.newIndex > evt.oldIndex ? 'down' : 'up',
+                    })
+                    .finally(() => {
+                        this.onTableHeaderAction('refresh', {})
+                    })
             },
         })
     }

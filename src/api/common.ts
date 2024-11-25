@@ -370,14 +370,11 @@ export class baTableApi {
         )
     }
 
-    sortableApi(id: number, targetId: number) {
+    sortable(data: anyObj) {
         return createAxios({
             url: this.actionUrl.get('sortable'),
             method: 'post',
-            data: {
-                id: id,
-                targetId: targetId,
-            },
+            data: data,
         })
     }
 }
