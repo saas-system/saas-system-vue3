@@ -853,6 +853,16 @@ const onFieldDesignTypeChange = (designType: string) => {
  * 字段名修改
  */
 const onFieldNameChange = (val: string, index: number) => {
+    for (const key in state.fields) {
+        if (state.fields[key].name == val) {
+            // 重命名失败，字段名称重复
+            state.error.fieldNameDuplication = ElMessage({
+                message: t('crud.crud.Rename failed') + '：' + t('crud.crud.Field name duplication', { field: val }),
+                type: 'error',
+            })
+            return
+        }
+    }
     const oldName = state.fields[index].name
     state.fields[index].name = val
     for (const key in tableFieldsKey) {
@@ -899,7 +909,7 @@ const primaryKeyRepeatCheck = (field: FieldItem, excludeIndex: number = -1) => {
 }
 
 /**
- * 字段名称命名规则检测
+ * 全部字段的名称命名规则检测
  */
 const fieldNameCheck = (showErrorType: 'ElNotification' | 'ElMessage') => {
     if (state.error.fieldName) {
@@ -931,7 +941,7 @@ const fieldNameCheck = (showErrorType: 'ElNotification' | 'ElMessage') => {
 }
 
 /**
- * 字段名称重复检测
+ * 全部字段的名称重复检测
  */
 const fieldNameDuplicationCheck = (showErrorType: 'ElNotification' | 'ElMessage') => {
     if (state.error.fieldNameDuplication) {
