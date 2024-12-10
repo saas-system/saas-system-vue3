@@ -776,7 +776,7 @@ const onFieldDesignTypeChange = (designType: string) => {
     let fieldDesignData: FieldItem | null = null
     for (const key in fieldItem) {
         const fieldItemIndex = getArrayKey(fieldItem[key as keyof typeof fieldItem], 'designType', designType)
-        if (fieldItemIndex) {
+        if (fieldItemIndex !== false) {
             fieldDesignData = cloneDeep(fieldItem[key as keyof typeof fieldItem][fieldItemIndex])
             break
         }
@@ -853,15 +853,14 @@ const onFieldDesignTypeChange = (designType: string) => {
  * 字段名修改
  */
 const onFieldNameChange = (val: string, index: number) => {
-    for (const key in state.fields) {
-        if (state.fields[key].name == val) {
-            // 重命名失败，字段名称重复
-            state.error.fieldNameDuplication = ElMessage({
-                message: t('crud.crud.Rename failed') + '：' + t('crud.crud.Field name duplication', { field: val }),
-                type: 'error',
-            })
-            return
-        }
+    const nameRepeatKey = getArrayKey(state.fields, 'name', val)
+    if (nameRepeatKey !== false) {
+        // 重命名失败，字段名称重复
+        state.error.fieldNameDuplication = ElMessage({
+            message: t('crud.crud.Rename failed') + '：' + t('crud.crud.Field name duplication', { field: val }),
+            type: 'error',
+        })
+        return
     }
     const oldName = state.fields[index].name
     state.fields[index].name = val
