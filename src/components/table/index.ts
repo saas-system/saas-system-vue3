@@ -17,7 +17,6 @@ export const getCellValue = (row: TableRow, field: TableColumn, column: TableCol
         for (let index = 1; index < fieldNameArr.length; index++) {
             cellValue = cellValue ? cellValue[fieldNameArr[index]] ?? '' : ''
         }
-        return cellValue
     }
 
     // 若无值，尝试取默认值
