@@ -9,7 +9,7 @@
                     :effect="field.effect ?? 'light'"
                     :size="field.size ?? 'default'"
                 >
-                    {{ !isEmpty(field.replaceValue) ? field.replaceValue[tag] ?? tag : tag }}
+                    {{ !isEmpty(field.replaceValue) ? (field.replaceValue[tag] ?? tag) : tag }}
                 </el-tag>
             </template>
         </template>
@@ -20,7 +20,7 @@
                 :effect="field.effect ?? 'light'"
                 :size="field.size ?? 'default'"
             >
-                {{ !isEmpty(field.replaceValue) ? field.replaceValue[cellValue] ?? cellValue : cellValue }}
+                {{ !isEmpty(field.replaceValue) ? (field.replaceValue[cellValue] ?? cellValue) : cellValue }}
             </el-tag>
         </template>
     </div>

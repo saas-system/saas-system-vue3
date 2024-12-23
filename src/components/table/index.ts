@@ -15,7 +15,7 @@ export const getCellValue = (row: TableRow, field: TableColumn, column: TableCol
         const fieldNameArr = prop.split('.')
         cellValue = row[fieldNameArr[0]]
         for (let index = 1; index < fieldNameArr.length; index++) {
-            cellValue = cellValue ? cellValue[fieldNameArr[index]] ?? '' : ''
+            cellValue = cellValue ? (cellValue[fieldNameArr[index]] ?? '') : ''
         }
     }
 
