@@ -219,7 +219,9 @@ const onElChange = (file: UploadFileExt, files: UploadFiles) => {
 const onElRemove = (file: UploadUserFile, files: UploadFiles) => {
     triggerEvent('remove', [file, files])
     onChange(file, files)
-    emits('update:modelValue', getAllUrls())
+    nextTick(() => {
+        emits('update:modelValue', getAllUrls())
+    })
 }
 
 const onElPreview = (file: UploadFileExt) => {
