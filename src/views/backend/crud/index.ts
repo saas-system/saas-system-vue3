@@ -93,6 +93,7 @@ export const fieldItem: {
             form: {},
             ...fieldData.number,
             defaultType: 'NONE',
+            null: false,
             primaryKey: true,
             unsigned: true,
             autoIncrement: true,
@@ -109,20 +110,9 @@ export const fieldItem: {
             type: 'bigint',
             length: 20,
             defaultType: 'NONE',
+            null: false,
             primaryKey: true,
             unsigned: true,
-        },
-        {
-            title: i18n.global.t('crud.state.Weight (drag and drop sorting)'),
-            name: 'weigh',
-            comment: i18n.global.t('Weigh'),
-            designType: 'weigh',
-            table: {},
-            form: {},
-            ...fieldData.number,
-            default: '0',
-            defaultType: 'INPUT',
-            null: true,
         },
         {
             title: i18n.global.t('State'),
@@ -133,7 +123,7 @@ export const fieldItem: {
             form: {},
             ...fieldData.switch,
             default: '1',
-            defaultType: 'INPUT'
+            defaultType: 'INPUT',
         },
         {
             title: i18n.global.t('crud.state.remarks'),
@@ -144,6 +134,15 @@ export const fieldItem: {
             table: {},
             form: {},
             ...fieldData.textarea,
+        },
+        {
+            title: i18n.global.t('crud.state.Weight (drag and drop sorting)'),
+            name: 'weigh',
+            comment: i18n.global.t('Weigh'),
+            designType: 'weigh',
+            table: {},
+            form: {},
+            ...fieldData.number,
         },
         {
             title: i18n.global.t('Update time'),
@@ -215,7 +214,7 @@ export const fieldItem: {
             form: {},
             ...fieldData.radio,
             default: 'opt0',
-            defaultType: 'INPUT'
+            defaultType: 'INPUT',
         },
         {
             title: i18n.global.t('utils.checkbox'),
@@ -227,7 +226,7 @@ export const fieldItem: {
             form: {},
             ...fieldData.checkbox,
             default: 'opt0,opt1',
-            defaultType: 'INPUT'
+            defaultType: 'INPUT',
         },
         {
             title: i18n.global.t('utils.select'),
@@ -239,7 +238,7 @@ export const fieldItem: {
             form: {},
             ...fieldData.select,
             default: 'opt0',
-            defaultType: 'INPUT'
+            defaultType: 'INPUT',
         },
         {
             title: i18n.global.t('utils.switch'),
@@ -250,7 +249,7 @@ export const fieldItem: {
             form: {},
             ...fieldData.switch,
             default: '1',
-            defaultType: 'INPUT'
+            defaultType: 'INPUT',
         },
         {
             title: i18n.global.t('utils.rich Text'),
@@ -287,9 +286,9 @@ export const fieldItem: {
             type: 'decimal',
             length: 5,
             precision: 2,
-            default: '0',
-            defaultType: 'INPUT',
+            defaultType: 'NULL',
             ...npuaFalse(),
+            null: true,
             comment: i18n.global.t('utils.float'),
             designType: 'float',
             table: {},
@@ -457,7 +456,7 @@ const tableBaseAttr = {
         value: 'eq',
         options: {
             false: i18n.global.t('crud.state.Disable Search'),
-            eq: 'eq=',
+            eq: 'eq =',
             ne: 'ne !=',
             gt: 'gt >',
             egt: 'egt >=',
@@ -774,6 +773,14 @@ export const designTypes: anyObj = {
                 value: '',
                 placeholder: i18n.global.t('crud.state.If it is not input, it will be automatically analyzed by the controller'),
             },
+            'remote-primary-table-alias': {
+                type: 'string',
+                value: '',
+            },
+            'remote-source-config-type': {
+                type: 'hidden',
+                value: '',
+            },
         },
     },
     remoteSelects: {
@@ -815,6 +822,14 @@ export const designTypes: anyObj = {
                 type: 'string',
                 value: '',
                 placeholder: i18n.global.t('crud.state.If it is not input, it will be automatically analyzed by the controller'),
+            },
+            'remote-primary-table-alias': {
+                type: 'string',
+                value: '',
+            },
+            'remote-source-config-type': {
+                type: 'hidden',
+                value: '',
             },
         },
     },
