@@ -320,16 +320,6 @@ export default defineComponent({
             [
                 'time',
                 () => {
-                    const valueComputed = computed(() => {
-                        if (props.modelValue instanceof Date) {
-                            return props.modelValue
-                        } else if (!props.modelValue) {
-                            return ''
-                        } else {
-                            let date = new Date()
-                            return new Date(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + props.modelValue)
-                        }
-                    })
                     return () =>
                         createVNode(
                             resolveComponent('el-time-picker'),
@@ -337,8 +327,9 @@ export default defineComponent({
                                 class: 'w100',
                                 clearable: true,
                                 format: 'HH:mm:ss',
+                                valueFormat: 'HH:mm:ss',
                                 ...attrs.value,
-                                modelValue: valueComputed.value,
+                                modelValue: props.modelValue,
                                 'onUpdate:modelValue': onValueUpdate,
                             },
                             slots
@@ -482,7 +473,10 @@ export default defineComponent({
                             resolveComponent('el-color-picker'),
                             {
                                 modelValue: props.modelValue,
-                                'onUpdate:modelValue': onValueUpdate,
+                                'onUpdate:modelValue': (newValue: string | null) => {
+                                    // color 数据使用 varchar 存储，点击清空时的 null 值使用 empty string 代替
+                                    emit('update:modelValue', newValue === null ? '' : newValue)
+                                },
                                 ...attrs.value,
                             },
                             slots
