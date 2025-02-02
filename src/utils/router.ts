@@ -132,6 +132,19 @@ export const getMenuPaths = (menus: RouteRecordRaw[]): string[] => {
 }
 
 /**
+ * 获取菜单唯一标识
+ * @param menu 菜单数据
+ * @param prefix 前缀
+ */
+export const getMenuKey = (menu: RouteRecordRaw, prefix = '') => {
+    if (prefix === '') {
+        prefix = menu.path
+    }
+    return `${prefix}-${menu.name as string}-${menu.meta && menu.meta.id ? menu.meta.id : ''}`
+}
+
+
+/**
  * 会员中心和后台的菜单处理
  */
 const handleMenuRule = (routes: any, pathPrefix = '/', type = ['menu', 'menu_dir']) => {
