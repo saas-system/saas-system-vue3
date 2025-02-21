@@ -65,6 +65,7 @@
                             field: 'key',
                             remoteUrl: getDatabaseConnectionListUrl,
                             onChange: baTable.onConnectionChange,
+                            valueOnClear: '',
                         }"
                     />
                     <FormItem
