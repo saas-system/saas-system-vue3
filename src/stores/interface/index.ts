@@ -174,6 +174,7 @@ export interface SiteConfig {
     recordNumber?: string
     version: string
     cdnUrl: string
+    cdn_url_params: string
     apiUrl: string
     upload: {
         mode: string
