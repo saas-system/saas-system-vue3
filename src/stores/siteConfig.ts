@@ -5,7 +5,6 @@ export const useSiteConfig = defineStore('siteConfig', {
     state: (): SiteConfig => {
         return {
             siteName: '',
-            recordNumber: '',
             version: '',
             cdnUrl: '',
             apiUrl: '',
@@ -13,6 +12,8 @@ export const useSiteConfig = defineStore('siteConfig', {
                 mode: 'local',
             },
             headNav: [],
+            recordNumber: '',
+            cdnUrlParams: '',
             initialize: false,
             userInitialize: false,
         }

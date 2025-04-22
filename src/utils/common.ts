@@ -258,9 +258,9 @@ export const fullUrl = (relativeUrl: string, domain = '') => {
         return relativeUrl
     }
     let url = domain + relativeUrl
-    if (siteConfig.cdnUrl && siteConfig.cdn_url_params) {
+    if (domain === siteConfig.cdnUrl && siteConfig.cdnUrlParams) {
         const separator = url.includes('?') ? '&' : '?'
-        url += separator + siteConfig.cdn_url_params
+        url += separator + siteConfig.cdnUrlParams
     }
     return url
 }
