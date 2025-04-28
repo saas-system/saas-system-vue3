@@ -419,7 +419,7 @@ const baTable = new baTableClass(
         defaultOrder: { prop: 'create_time', order: 'desc' },
     },
     {
-        defaultItems: { phone: 0, status: '1', expire_time: null },
+        defaultItems: { phone: 0, status: 1, expire_time: null },
     }
 )
 

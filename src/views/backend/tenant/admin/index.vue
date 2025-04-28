@@ -126,7 +126,7 @@ const baTable = new baTableClass(
         dblClickNotEditColumn: [undefined],
     },
     {
-        defaultItems: { status: '1' },
+        defaultItems: { status: 1 },
     }
 )
 

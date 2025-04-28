@@ -163,7 +163,7 @@
                         v-model="baTable.form.items!.status"
                         type="radio"
                         :input-attr="{
-                            content: { '0': t('Disable'), '1': t('Enable') },
+                            content: { 0: t('Disable'), 1: t('Enable') },
                             childrenAttr: { border: true },
                         }"
                     />

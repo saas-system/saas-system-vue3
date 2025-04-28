@@ -86,8 +86,8 @@ const baTable = new baTableClass(
                 prop: 'status',
                 align: 'center',
                 render: 'tag',
-                custom: { '0': 'danger', '1': 'success' },
-                replaceValue: { '0': t('Disable'), '1': t('Enable') },
+                custom: { 0: 'danger', 1: 'success' },
+                replaceValue: { 0: t('Disable'), 1: t('Enable') },
             },
             {
                 label: t('sms.variable.updatetime'),
@@ -113,7 +113,7 @@ const baTable = new baTableClass(
         defaultOrder: { prop: 'id', order: 'desc' },
     },
     {
-        defaultItems: { value_source: 'literal', status: '1' },
+        defaultItems: { value_source: 'literal', status: 1 },
     }
 )
 

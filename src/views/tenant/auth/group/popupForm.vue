@@ -63,7 +63,7 @@
                         :label="t('State')"
                         v-model="baTable.form.items!.status"
                         type="radio"
-                        :data="{ content: { '0': t('Disable'), '1': t('Enable') }, childrenAttr: { border: true } }"
+                        :data="{ content: { 0: t('Disable'), 1: t('Enable') }, childrenAttr: { border: true } }"
                     />
                 </el-form>
             </div>

@@ -219,7 +219,7 @@ const baTable = new baTableClass(
         dblClickNotEditColumn: [undefined],
     },
     {
-        defaultItems: {card_number: '', gender: '0', integral: 0, competitive_point: 0, master_score: 0, status: '1'},
+        defaultItems: {card_number: '', gender: '0', integral: 0, competitive_point: 0, master_score: 0, status: 1},
     },
     {
         getIndex() {
