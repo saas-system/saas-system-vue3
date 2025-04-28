@@ -1,7 +1,7 @@
 export default {
     id: 'id',
-    table_name: 'table_name',
-    table: 'table',
+    table_name: 'name',
+    comment: 'comment',
     fields: 'fields',
     status: 'status',
     delete: 'delete code',
@@ -10,5 +10,5 @@ export default {
     'status error': 'status error',
     'status start': 'status start',
     create_time: 'create_time',
-    'quick Search Fields': 'id,table_name',
+    'quick Search Fields': 'id,table_name,comment',
 }
