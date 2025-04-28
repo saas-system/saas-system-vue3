@@ -93,14 +93,14 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import FormItem from '/@/components/formItem/index.vue'
+import FormItem from '/src/components/formItem/index.vue'
 import type { FormInstance, FormItemRule } from 'element-plus'
-import { buildValidatorData } from '/@/utils/validate'
+import { buildValidatorData } from '/src/utils/validate'
 import { useI18n } from 'vue-i18n'
-import { uuid } from '/@/utils/random'
-import { checkIn, buildCaptchaUrl } from '/@/api/backend/module'
-import { useBaAccount } from '/@/stores/baAccount'
-import { state } from '../store'
+import { uuid } from '/src/utils/random'
+import { checkIn, buildCaptchaUrl } from '/src/api/backend/module'
+import { useBaAccount } from '/src/stores/baAccount'
+import { state } from '../../../views/backend/module/store'
 
 const { t } = useI18n()
 const baAccount = useBaAccount()
