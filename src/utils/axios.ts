@@ -68,7 +68,7 @@ function createAxios<Data = any, T = ApiPromise<Data>>(axiosConfig: AxiosRequest
 
     options = Object.assign(
         {
-            CancelDuplicateRequest: true, // 是否开启取消重复请求, 默认为 true
+            cancelDuplicateRequest: true, // 是否开启取消重复请求, 默认为 true
             loading: false, // 是否开启loading层效果, 默认为false
             reductDataFormat: true, // 是否开启简洁的数据结构响应, 默认为true
             showErrorMessage: true, // 是否开启接口错误信息展示,默认为true
@@ -84,7 +84,7 @@ function createAxios<Data = any, T = ApiPromise<Data>>(axiosConfig: AxiosRequest
     Axios.interceptors.request.use(
         (config) => {
             removePending(config)
-            options.CancelDuplicateRequest && addPending(config)
+            options.cancelDuplicateRequest && addPending(config)
             // 创建loading实例
             if (options.loading) {
                 loadingInstance.count++
@@ -409,7 +409,7 @@ interface LoadingInstance {
 
 interface Options {
     // 是否开启取消重复请求, 默认为 true
-    CancelDuplicateRequest?: boolean
+    cancelDuplicateRequest?: boolean
     // 是否开启loading层效果, 默认为false
     loading?: boolean
     // 是否开启简洁的数据结构响应, 默认为true
