@@ -13,6 +13,7 @@ import MenuVertical from '/@/layouts/tenant/components/menus/menuVertical.vue'
 import MenuVerticalChildren from '/@/layouts/tenant/components/menus/menuVerticalChildren.vue'
 import { useConfig } from '/@/stores/config'
 import { useNavTabs } from '/@/stores/tenantNavTabs'
+import { SYSTEM_ZINDEX } from '/@/stores/constant/common'
 
 const config = useConfig()
 const navTabs = useNavTabs()
@@ -51,6 +52,6 @@ export default defineComponent({
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 9999999;
+    z-index:  v-bind('SYSTEM_ZINDEX');
 }
 </style>

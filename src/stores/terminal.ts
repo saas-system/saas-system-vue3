@@ -9,6 +9,7 @@ import type { Terminal } from '/@/stores/interface/index'
 import { timeFormat } from '/@/utils/common'
 import { uuid } from '/@/utils/random'
 import { closeHotUpdate, openHotUpdate } from '/@/utils/vite'
+import { SYSTEM_ZINDEX } from '/@/stores/constant/common'
 
 export const useTerminal = defineStore(
     'terminal',
@@ -124,7 +125,7 @@ export const useTerminal = defineStore(
                         ElNotification({
                             type: 'error',
                             message: i18n.global.t('terminal.Newly added tasks will never start because they are blocked by failed tasks'),
-                            zIndex: 9999,
+                            zIndex: SYSTEM_ZINDEX,
                         })
                         break
                     }

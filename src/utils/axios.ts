@@ -11,7 +11,7 @@ import { useTenantAdminInfo } from '/@/stores/tenantAdminInfo'
 import { useConfig } from '/@/stores/config'
 import { useUserInfo } from '/@/stores/userInfo'
 import { isAdminApp, isTenantApp } from '/@/utils/common'
-
+import { SYSTEM_ZINDEX } from '/@/stores/constant/common'
 
 window.requests = []
 window.tokenRefreshing = false
@@ -214,7 +214,7 @@ function createAxios<Data = any, T = ApiPromise<Data>>(axiosConfig: AxiosRequest
                         ElNotification({
                             type: 'error',
                             message: response.data.msg,
-                            zIndex: 9999,
+                            zIndex: SYSTEM_ZINDEX,
                         })
                     }
                     // 自动跳转到路由name或path
@@ -242,7 +242,7 @@ function createAxios<Data = any, T = ApiPromise<Data>>(axiosConfig: AxiosRequest
                     ElNotification({
                         message: response.data.msg ? response.data.msg : i18n.global.t('axios.Operation successful'),
                         type: 'success',
-                        zIndex: 9999,
+                        zIndex: SYSTEM_ZINDEX,
                     })
                 }
             } else if (response.config.responseType == 'blob') {
