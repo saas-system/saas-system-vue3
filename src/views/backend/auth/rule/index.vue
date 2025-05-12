@@ -72,24 +72,27 @@ const baTable = new baTableClass(
             status: 1,
             icon: 'fa fa-circle-o',
         },
-    },
-    {
-        getIndex: () => {
-            baTable.table.expandAll = baTable.table.filter?.quickSearch ? true : false
-        },
-        // 获得编辑数据后
-        requestEdit: () => {
-            if (baTable.form.items && !baTable.form.items.icon) baTable.form.items.icon = 'fa fa-circle-o'
-        },
     }
 )
+
+// 获取数据前钩子
+baTable.before.getData = () => {
+    baTable.table.expandAll = baTable.table.filter?.quickSearch ? true : false
+}
+
+// 获取到编辑行数据后的钩子
+baTable.after.getEditData = () => {
+    if (baTable.form.items && !baTable.form.items.icon) {
+        baTable.form.items.icon = 'fa fa-circle-o'
+    }
+}
 
 provide('baTable', baTable)
 
 onMounted(() => {
     baTable.table.ref = tableRef.value
     baTable.mount()
-    baTable.getIndex()?.then(() => {
+    baTable.getData()?.then(() => {
         baTable.dragSort()
     })
 })
