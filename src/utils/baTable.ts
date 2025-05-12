@@ -48,7 +48,7 @@ export default class baTable {
         extend: {},
     })
 
-    /** 表单状态，属性对应含义请查阅 BaTableForm 的类型定义 */
+    /** BaTable 前置处理函数列表（前置埋点） */
     public before: BaTableBefore
 
     /** BaTable 后置处理函数列表（后置埋点） */
@@ -103,8 +103,10 @@ export default class baTable {
 
     /**
      * 表格数据获取（请求表格对应控制器的查看方法）
+     * @alias getIndex
      */
-    getIndex = () => {
+    getData = () => {
+        if (this.runBefore('getData') === false) return
         if (this.runBefore('getIndex') === false) return
         this.table.loading = true
         return this.api
@@ -113,7 +115,12 @@ export default class baTable {
                 this.table.data = res.data.list
                 this.table.total = res.data.total
                 this.table.remark = res.data.remark
+                this.runAfter('getData', { res })
                 this.runAfter('getIndex', { res })
+            })
+            .catch((err) => {
+                this.runAfter('getData', { err })
+                this.runAfter('getIndex', { err })
             })
             .finally(() => {
                 this.table.loading = false
@@ -133,8 +140,10 @@ export default class baTable {
 
     /**
      * 获取被编辑行数据
+     * @alias requestEdit
      */
-    requestEdit = (id: string) => {
+    getEditData = (id: string) => {
+        if (this.runBefore('getEditData', { id }) === false) return
         if (this.runBefore('requestEdit', { id }) === false) return
         this.form.loading = true
         this.form.items = {}
@@ -144,10 +153,12 @@ export default class baTable {
             })
             .then((res) => {
                 this.form.items = res.data.row
+                this.runAfter('getEditData', { res })
                 this.runAfter('requestEdit', { res })
             })
             .catch((err) => {
                 this.toggleForm()
+                this.runAfter('getEditData', { err })
                 this.runAfter('requestEdit', { err })
             })
             .finally(() => {
@@ -179,7 +190,7 @@ export default class baTable {
             if (!operateIds.length) {
                 return false
             }
-            this.requestEdit(operateIds[0])
+            this.getEditData(operateIds[0])
         } else if (operate == 'Add') {
             this.form.items = cloneDeep(this.form.defaultItems)
         }
@@ -337,7 +348,7 @@ export default class baTable {
                 () => {
                     // 刷新表格在大多数情况下无需置空 data，但任需防范表格列组件的 :key 不会被更新的问题，比如关联表的数据列
                     this.table.data = []
-                    this.getIndex()
+                    this.getData()
                 },
             ],
             [
@@ -494,60 +505,39 @@ export default class baTable {
 
     /**
      * 公共搜索初始化
-     * @param query 要搜索的数据
      */
-    initComSearch = (query: anyObj = {}) => {
+    initComSearch = () => {
         const form: anyObj = {}
         const field = this.table.column
 
-        if (field.length <= 0) {
-            return
-        }
+        if (field.length <= 0) return
 
         for (const key in field) {
-            if (field[key].operator === false) {
-                continue
-            }
-            const prop = field[key].prop
+            // 关闭搜索的字段
+            if (field[key].operator === false) continue
+
+            // 取默认操作符号
             if (typeof field[key].operator == 'undefined') {
                 field[key].operator = 'eq'
             }
 
+            // 公共搜索表单字段初始化
+            const prop = field[key].prop
             if (prop) {
                 if (field[key].operator == 'RANGE' || field[key].operator == 'NOT RANGE') {
+                    // 范围查询
                     form[prop] = ''
                     form[prop + '-start'] = ''
                     form[prop + '-end'] = ''
                 } else if (field[key].operator == 'NULL' || field[key].operator == 'NOT NULL') {
+                    // 复选框
                     form[prop] = false
                 } else {
-
+                    // 普通文本框
                     form[prop] = ''
                 }
 
-                // 初始化来自query中的默认值
-                if (this.table.acceptQuery && typeof query[prop] != 'undefined') {
-                    const queryProp = (query[prop] as string) ?? ''
-                    if (field[key].operator == 'RANGE' || field[key].operator == 'NOT RANGE') {
-                        const range = queryProp.split(',')
-                        if (field[key].render == 'datetime') {
-                            if (range && range.length >= 2) {
-                                form[prop] = range;
-                                form[prop + '-default'] = [new Date(range[0]), new Date(range[1])]
-                            }
-                        } else {
-                            form[prop + '-start'] = range[0] ?? ''
-                            form[prop + '-end'] = range[1] ?? ''
-                        }
-                    } else if (field[key].operator == 'NULL' || field[key].operator == 'NOT NULL') {
-                        form[prop] = queryProp ? true : false
-                    } else if (field[key].render == 'datetime') {
-                        form[prop + '-default'] = new Date(queryProp)
-                    } else {
-                        form[prop] = queryProp
-                    }
-                }
-
+                // 初始化字段的公共搜索数据
                 this.comSearch.fieldData.set(prop, {
                     operator: field[key].operator,
                     render: field[key].render,
@@ -556,22 +546,6 @@ export default class baTable {
             }
         }
 
-        // 接受query再搜索
-        if (this.table.acceptQuery) {
-            const comSearchData: comSearchData[] = []
-            for (const key in query) {
-                const fieldDataTemp = this.comSearch.fieldData.get(key)
-                if (fieldDataTemp) {
-                    comSearchData.push({
-                        field: key,
-                        val: query[key] as string,
-                        operator: fieldDataTemp.operator,
-                        render: fieldDataTemp.render,
-                    })
-                }
-            }
-            this.table.filter!.search = comSearchData
-        }
         this.comSearch.form = Object.assign(this.comSearch.form, form)
     }
 
@@ -662,4 +636,8 @@ export default class baTable {
 
         return comSearchData
     }
+
+    // 方法别名
+    getIndex = this.getData
+    requestEdit = this.getEditData
 }
