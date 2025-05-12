@@ -53,7 +53,7 @@ export default class baTable {
     // BaTable后置处理函数列表（后置埋点）
     public after: BaTableAfter
 
-    // 通用搜索数据
+    // 公共搜索数据
     public comSearch: ComSearch = reactive({
         form: {},
         fieldData: new Map(),
@@ -473,20 +473,20 @@ export default class baTable {
         const route = useRoute()
         this.table.routePath = route.fullPath
 
-        // 初始化通用搜索表单数据和字段 Map
+        // 初始化公共搜索表单数据和字段 Map
         this.initComSearch()
 
         if (this.table.acceptQuery && !isEmpty(route.query)) {
-            // 根据当前 URL 的 query 初始化通用搜索默认值
+            // 根据当前 URL 的 query 初始化公共搜索默认值
             this.setComSearchData(route.query)
 
-            // 获取通用搜索数据合并至表格筛选条件
+            // 获取公共搜索数据合并至表格筛选条件
             this.table.filter!.search = this.getComSearchData().concat(this.table.filter?.search ?? [])
         }
     }
 
     /**
-     * 通用搜索初始化
+     * 公共搜索初始化
      * @param query 要搜索的数据
      */
     initComSearch = (query: anyObj = {}) => {
@@ -569,7 +569,7 @@ export default class baTable {
     }
 
     /**
-     * 设置通用搜索数据
+     * 设置公共搜索数据
      */
     setComSearchData = (query: anyObj) => {
         for (const key in this.table.column) {
@@ -613,7 +613,7 @@ export default class baTable {
     }
 
     /**
-     * 获取通用搜索数据
+     * 获取公共搜索数据
      */
     getComSearchData = () => {
         const comSearchData: comSearchData[] = []
