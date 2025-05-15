@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, onMounted, reactive } from 'vue'
+import { onMounted, reactive } from 'vue'
 import { onBeforeRouteUpdate, useRoute, type RouteLocationNormalizedLoaded } from 'vue-router'
 import MenuTree from '/@/layouts/backend/components/menus/menuTree.vue'
 import NavMenus from '/@/layouts/backend/components/navMenus.vue'
@@ -40,11 +40,12 @@ const currentRouteActive = (currentRoute: RouteLocationNormalizedLoaded) => {
 
 // 滚动条滚动到激活菜单所在位置
 const verticalMenusScroll = () => {
-    nextTick(() => {
+    setTimeout(() => {
         let activeMenu: HTMLElement | null = document.querySelector('.el-menu.menu-horizontal li.is-active')
-        if (!activeMenu) return false
-        layoutMenuScrollbarRef.value?.setScrollTop(activeMenu.offsetTop)
-    })
+        if (activeMenu) {
+            layoutMenuScrollbarRef.value?.setScrollLeft(activeMenu.offsetLeft)
+        }
+    }, 500)
 }
 
 onMounted(() => {
