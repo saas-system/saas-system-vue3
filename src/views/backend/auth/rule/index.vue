@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import { cloneDeep, debounce } from 'lodash-es'
-import { nextTick, onMounted, provide, ref } from 'vue'
+import { nextTick, onMounted, provide, useTemplateRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import PopupForm from './popupForm.vue'
 import { baTableApi } from '/@/api/common'
@@ -40,7 +40,7 @@ defineOptions({
     name: 'auth/rule',
 })
 
-const tableRef = ref()
+const tableRef = useTemplateRef('tableRef')
 const { t } = useI18n()
 const config = useConfig()
 const baTable = new baTableClass(
@@ -134,11 +134,11 @@ const restoreState = () => {
         sessionState = cloneDeep(sessionStateDefault)
 
         for (const key in sessionStateTemp.expanded) {
-            tableRef.value.getRef().toggleRowExpansion(sessionStateTemp.expanded[key], true)
+            tableRef.value?.getRef()?.toggleRowExpansion(sessionStateTemp.expanded[key], true)
         }
         nextTick(() => {
             if (sessionStateTemp.scrollTop || sessionStateTemp.scrollLeft) {
-                tableRef.value.getRef().scrollTo({ top: sessionStateTemp.scrollTop || 0, left: sessionStateTemp.scrollLeft || 0 })
+                tableRef.value?.getRef()?.scrollTo({ top: sessionStateTemp.scrollTop || 0, left: sessionStateTemp.scrollLeft || 0 })
             }
 
             /**

@@ -60,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, reactive, ref, nextTick } from 'vue'
+import { onMounted, onBeforeUnmount, reactive, nextTick, useTemplateRef } from 'vue'
 import type { FormInstance, InputInstance } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { editDefaultLang } from '/@/lang/index'
@@ -79,9 +79,9 @@ const config = useConfig()
 const adminInfo = useAdminInfo()
 toggleDark(config.layout.isDark)
 
-const formRef = ref<FormInstance>()
-const usernameRef = ref<InputInstance>()
-const passwordRef = ref<InputInstance>()
+const formRef = useTemplateRef('formRef')
+const usernameRef = useTemplateRef('usernameRef')
+const passwordRef = useTemplateRef('passwordRef')
 const state = reactive({
     isMobile: false,
     showCaptcha: false,
@@ -116,9 +116,9 @@ const rules = reactive({
 
 const focusInput = () => {
     if (form.username === '') {
-        usernameRef.value!.focus()
+        usernameRef.value?.focus()
     } else if (form.password === '') {
-        passwordRef.value!.focus()
+        passwordRef.value?.focus()
     }
 }
 
