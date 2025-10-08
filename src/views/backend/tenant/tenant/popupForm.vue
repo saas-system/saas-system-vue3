@@ -135,7 +135,7 @@ const rules: Partial<Record<string, FormItemRule[]>> = reactive({
     name: [buildValidatorData({ name: 'required', title: t('tenant.tenant.name') })],
     contact_name: [buildValidatorData({ name: 'required', title: t('tenant.tenant.contact_name') })],
     mobile: [buildValidatorData({ name: 'required', title: t('tenant.tenant.mobile') })],
-    expire_time: [buildValidatorData({ name: 'date', title: t('tenant.tenant.expire_time') }),buildValidatorData({ name: 'required', title: t('tenant.tenant.expire_time') })],
+    expire_time: [buildValidatorData({ name: 'date', title: t('tenant.tenant.expire_time') }), buildValidatorData({ name: 'required', title: t('tenant.tenant.expire_time') })],
     create_time: [buildValidatorData({ name: 'date', title: t('tenant.tenant.create_time') })],
     update_time: [buildValidatorData({ name: 'date', title: t('tenant.tenant.update_time') })],
 })

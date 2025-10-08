@@ -203,7 +203,7 @@ export default class baTable {
      * 提交表单
      * @param formEl 表单组件ref
      */
-    onSubmit = (formE?: FormInstance | null) => {
+    onSubmit = (formEl?: FormInstance | null) => {
         // 当前操作的首字母小写
         const operate = this.form.operate!.replace(this.form.operate![0], this.form.operate![0].toLowerCase())
 

@@ -37,13 +37,13 @@ const refresh = () => {
 }
 if (isAdminApp() && navTabs.state.tabsViewRoutes) {
     // console.log('platform')
-    console.log(navTabs.state.tabsViewRoutes)
+    // console.log(navTabs.state.tabsViewRoutes)
     let firstRoute = getFirstRoute(navTabs.state.tabsViewRoutes)
     if (firstRoute) routePush(firstRoute.path)
 
 } else if (isTenantApp() && tenantNavTabs.state.tabsViewRoutes) {
     // console.log('tenant')
-    console.log(navTabs.state.tabsViewRoutes)
+    // console.log(navTabs.state.tabsViewRoutes)
     let firstRoute = getFirstRoute(tenantNavTabs.state.tabsViewRoutes)
     if (firstRoute) routePush(firstRoute.path)
 
