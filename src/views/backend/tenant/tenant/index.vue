@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, provide, onMounted, reactive, inject } from 'vue'
+import { provide, onMounted, reactive, useTemplateRef } from 'vue'
 import baTableClass from '/@/utils/baTable'
 import { defaultOptButtons } from '/@/components/table'
 import { baTableApi } from '/@/api/common'
@@ -47,7 +47,7 @@ import { auth } from "/@/utils/common";
 import { useAdminInfo } from '/@/stores/adminInfo'
 
 const { t } = useI18n()
-const tableRef = ref()
+const tableRef = useTemplateRef('tableRef')
 const adminInfo = useAdminInfo()
 let optButtons = defaultOptButtons(['edit'])
 const state = reactive({
@@ -231,6 +231,7 @@ const baTable = new baTableClass(
                 align: 'center',
                 operator: 'FIND_IN_SET',
                 render: 'tags',
+                show: false,
                 renderFormatter: (row: TableRow) => {
                     return row.business_admin ? row.business_admin : '';
                 },
@@ -245,8 +246,23 @@ const baTable = new baTableClass(
                     params: {},
                 }
             },
-            { label: t('tenant.tenant.logo'), prop: 'logo', align: 'center', render: 'image', width: 80, operator: false },
-            { label: t('tenant.tenant.mini_logo'), prop: 'config.mini_logo', align: 'center', render: 'image', width: 120, operator: false },
+            { 
+                label: t('tenant.tenant.logo'), 
+                prop: 'logo',
+                 align: 'center', 
+                 render: 'image', 
+                 width: 80, 
+                 operator: false 
+            },
+            { 
+                label: t('tenant.tenant.mini_logo'), 
+                prop: 'config.mini_logo', 
+                align: 'center', 
+                render: 'image', 
+                width: 120, 
+                show: false,
+                operator: false 
+            },
             {
                 label: t('tenant.tenant.province_id'),
                 prop: 'province_id',
@@ -334,7 +350,7 @@ const baTable = new baTableClass(
                 operatorPlaceholder: t('Fuzzy query'),
                 operator: false,
                 sortable: false,
-                show: true
+                show: false
             },
             {
                 label: t('tenant.tenant.status'),
@@ -408,7 +424,7 @@ const baTable = new baTableClass(
             {
                 label: t('Operate'),
                 align: 'center',
-                "min-width": 550,
+                "min-width": 250,
                 render: 'buttons',
                 buttons: optButtons,
                 operator: false,
