@@ -1,5 +1,3 @@
-import { useBaAccount } from '/@/stores/baAccount'
-import { useSiteConfig } from '/@/stores/siteConfig'
 import createAxios from '/@/utils/axios'
 
 export const url = '/admin/crud.Crud/'
@@ -17,14 +15,21 @@ export function generate(data: anyObj) {
     )
 }
 
-export function getFileData(table: string, commonModel = 0,app = 'admin') {
+export function getDatabaseList() {
+    return createAxios({
+        url: url + 'databaseList',
+        method: 'get',
+    })
+}
+
+export function getFileData(table: string, commonModel = 0, targetNamespace = 'admin') {
     return createAxios({
         url: url + 'getFileData',
         method: 'get',
         params: {
             table: table,
             commonModel: commonModel,
-            app:app,
+            targetNamespace: targetNamespace,
         },
     })
 }
@@ -42,31 +47,25 @@ export function generateCheck(data: anyObj) {
     )
 }
 
-export function parseFieldData(data: anyObj) {
+export function parseFieldData(type: string, table = '', sql = '') {
     return createAxios({
         url: url + 'parseFieldData',
         method: 'post',
-        data: data,
+        data: {
+            type: type,
+            table: table,
+            sql: sql,
+        },
     })
 }
 
-export function postLogStart(id: string, type: string) {
-    const data: anyObj = {
-        id,
-        type,
-    }
-
-    if (type == 'Cloud history') {
-        const baAccount = useBaAccount()
-        data['token'] = baAccount.getToken('auth')
-    }
-
+export function postLogStart(id: number) {
     return createAxios({
         url: url + 'logStart',
         method: 'post',
-        data: data,
-
-
+        data: {
+            id: id,
+        },
     })
 }
 
@@ -80,55 +79,12 @@ export function postDel(id: number) {
     })
 }
 
-export function checkCrudLog(table: string, connection: string) {
+export function checkCrudLog(table: string) {
     return createAxios({
         url: url + 'checkCrudLog',
         method: 'get',
         params: {
             table: table,
-            connection: connection,
         },
-    })
-}
-
-
-export function uploadLog(data: anyObj) {
-    const baAccount = useBaAccount()
-    const siteConfig = useSiteConfig()
-    data['ba-user-token'] = baAccount.getToken('auth')
-    return createAxios({
-        url: siteConfig.apiUrl + '/api/v6.Crud/uploadLog',
-        data: data,
-        method: 'post',
-    })
-}
-
-export function uploadCompleted(data: anyObj) {
-    return createAxios({
-        url: url + 'uploadCompleted',
-        data: data,
-        method: 'post',
-    })
-}
-
-export function logs(data: anyObj = {}) {
-    const baAccount = useBaAccount()
-    const siteConfig = useSiteConfig()
-    data['ba-user-token'] = baAccount.getToken('auth')
-    return createAxios({
-        url: siteConfig.apiUrl + '/api/v6.Crud/logs',
-        data: data,
-        method: 'post',
-    })
-}
-
-export function delLog(data: anyObj = {}) {
-    const baAccount = useBaAccount()
-    const siteConfig = useSiteConfig()
-    data['ba-user-token'] = baAccount.getToken('auth')
-    return createAxios({
-        url: siteConfig.apiUrl + '/api/v6.Crud/del',
-        data: data,
-        method: 'post',
     })
 }
