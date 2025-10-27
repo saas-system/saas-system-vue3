@@ -3,7 +3,7 @@ import { useSiteConfig } from '/@/stores/siteConfig'
 import createAxios from '/@/utils/axios'
 
 const moduleControllerUrl = '/admin/module/'
-const storeUrl = '/api/v6.store/'
+const storeUrl = '/api/v7.store/'
 
 export function index(params: anyObj = {}) {
     return createAxios({
