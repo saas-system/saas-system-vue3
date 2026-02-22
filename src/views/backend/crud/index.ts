@@ -29,6 +29,7 @@ export const state: {
     startData: {
         sql: string
         table: string
+        db: string
         logId: string
         logType: string
         databaseConnection: string
@@ -39,6 +40,7 @@ export const state: {
     startData: {
         sql: '',
         table: '',
+        db: '',
         logId: '',
         logType: '',
         databaseConnection: '',

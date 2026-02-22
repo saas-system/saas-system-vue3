@@ -186,6 +186,10 @@ const onSubmit = () => {
     }
     formRef.value.validate((valid) => {
         if (valid) {
+            // 从数据表进入设计页时，Design 和接口使用 startData.table，需与选择框绑定的 db 同步
+            if (state.dialog.type === 'db' && crudState.startData.db) {
+                crudState.startData.table = crudState.startData.db
+            }
             changeStep(state.dialog.type)
         }
     })

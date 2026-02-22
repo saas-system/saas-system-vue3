@@ -24,12 +24,8 @@ export const routePush = async (to: RouteLocationRaw) => {
                 message: i18n.global.t('utils.Navigation failed, navigation guard intercepted!'),
                 type: 'error',
             })
-        } else if (isNavigationFailure(failure, NavigationFailureType.duplicated)) {
-            ElNotification({
-                message: i18n.global.t('utils.Navigation failed, it is at the navigation target position!'),
-                type: 'warning',
-            })
         }
+        // 已在目标位置(duplicated)时不弹提示，静默忽略即可
     } catch (error) {
         ElNotification({
             message: i18n.global.t('utils.Navigation failed, invalid route!'),

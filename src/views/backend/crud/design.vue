@@ -1390,13 +1390,9 @@ const loadData = () => {
         return
     }
 
-    // 从数据表或sql开始
-    parseFieldData({
-        type: crudState.type,
-        table: crudState.startData.table,
-        sql: crudState.startData.sql,
-        connection: crudState.startData.databaseConnection,
-    })
+    // 从数据表或sql开始（start 页选择表时绑定在 startData.db，需与 table 一致）
+    const tableName = crudState.startData.table || crudState.startData.db || ''
+    parseFieldData(crudState.type, tableName, crudState.startData.sql)
         .then((res) => {
             let fields = []
             for (const key in res.data.columns) {
@@ -1422,9 +1418,9 @@ const loadData = () => {
             if (res.data.empty) {
                 state.table.rebuild = 'Yes'
             }
-            if (crudState.type == 'db' && crudState.startData.table) {
-                state.table.name = crudState.startData.table
-                onTableChange(crudState.startData.table)
+            if (crudState.type == 'db' && tableName) {
+                state.table.name = tableName
+                onTableChange(tableName)
             }
         })
         .finally(() => {

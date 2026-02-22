@@ -88,3 +88,29 @@ export function checkCrudLog(table: string) {
         },
     })
 }
+
+export function uploadCompleted(data: anyObj) {
+    return createAxios(
+        {
+            url: url + 'uploadCompleted',
+            method: 'post',
+            data: data,
+        },
+        {
+            showSuccessMessage: true,
+        }
+    )
+}
+
+export function uploadLog(data: anyObj) {
+    return createAxios(
+        {
+            url: url + 'uploadLog',
+            method: 'post',
+            data: data,
+        },
+        {
+            showSuccessMessage: true,
+        }
+    )
+}
