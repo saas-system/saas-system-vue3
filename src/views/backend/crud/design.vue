@@ -99,6 +99,27 @@
                             }"
                         />
                         <FormItem
+                            :label="t('crud.crud.Target namespace')"
+                            v-model="state.table.targetNamespace"
+                            type="select"
+                            :label-width="140"
+                            :block-help="t('crud.crud.Target namespace help')"
+                            :input-attr="{
+                                content: { admin: t('crud.crud.Namespace Admin'), tenant: t('crud.crud.Namespace Tenant') },
+                                onChange: () => state.table.generateRelativePath && onTableChange(state.table.generateRelativePath),
+                            }"
+                        />
+                        <FormItem
+                            :label="t('crud.crud.Add and modify interface method')"
+                            v-model="state.table.formType"
+                            type="select"
+                            :label-width="140"
+                            :block-help="t('crud.crud.Add and modify interface method help')"
+                            :input-attr="{
+                                content: { PopupForm: 'PopupForm', DrawerForm: 'DrawerForm' },
+                            }"
+                        />
+                        <FormItem
                             :label="t('crud.crud.Generated Controller Location')"
                             v-model="state.table.controllerFile"
                             type="string"
@@ -722,6 +743,8 @@ const state: {
         columnFields: string[]
         defaultSortType: string
         generateRelativePath: string
+        targetNamespace: string
+        formType: string
         isCommonModel: number
         modelFile: string
         controllerFile: string
@@ -784,6 +807,8 @@ const state: {
         columnFields: [],
         defaultSortType: 'desc',
         generateRelativePath: '',
+        targetNamespace: 'admin',
+        formType: 'PopupForm',
         isCommonModel: 0,
         modelFile: '',
         controllerFile: '',
@@ -1377,6 +1402,8 @@ const loadData = () => {
 
                 state.sync = res.data.sync
                 state.table = res.data.table
+                state.table.targetNamespace = res.data.table.targetNamespace ?? 'admin'
+                state.table.formType = res.data.table.formType ?? 'PopupForm'
                 tableDesignChangeInit()
                 if (res.data.table.empty) {
                     state.table.rebuild = 'Yes'
@@ -1569,7 +1596,7 @@ const tableDesignChangeInit = () => {
  */
 const onTableChange = (val: string) => {
     if (!val) return
-    getFileData(val, state.table.isCommonModel).then((res) => {
+    getFileData(val, state.table.isCommonModel, state.table.targetNamespace).then((res) => {
         state.table.modelFile = res.data.modelFile
         state.table.controllerFile = res.data.controllerFile
         state.table.validateFile = res.data.validateFile
